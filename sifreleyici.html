@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>FthLabz Şifreleyici</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body { background: #09090b; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .box { background: #1e1e24; padding: 30px; border-radius: 15px; width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; }
+        input, textarea, button { width: 100%; margin-top: 10px; padding: 12px; border-radius: 8px; border: none; box-sizing: border-box; font-size: 14px; }
+        input, textarea { background: #000; color: #00ff00; outline: none; }
+        button { background: #3b82f6; color: white; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.2s; }
+        button:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2 style="margin-top:0; color:#3b82f6; text-align:center;">FthLabz Token Şifreleyici</h2>
+        <label>GitHub Token (ghp_...):</label>
+        <input type="text" id="token" placeholder="Gerçek token'ı yapıştır">
+        
+        <label style="display:block; margin-top:15px;">Gizli PIN (Örn: 1453):</label>
+        <input type="text" id="pin" placeholder="Akılda kalıcı bir şifre">
+        
+        <button onclick="sifrele()">KİLİTLE VE ŞİFREYİ ÜRET</button>
+        
+        <label style="display:block; margin-top:20px; color:#a1a1aa;">Koda Yapıştırılacak Kripto Metin:</label>
+        <textarea id="sonuc" rows="4" placeholder="U2FsdGVkX1... buraya çıkacak" readonly></textarea>
+    </div>
+
+    <script>
+        function sifrele() {
+            const token = document.getElementById('token').value;
+            const pin = document.getElementById('pin').value;
+            if(!token || !pin) { alert("Doldur dostum!"); return; }
+            const sifreli = CryptoJS.AES.encrypt(token, pin).toString();
+            document.getElementById('sonuc').value = sifreli;
+        }
+    </script>
+</body>
+</html>
