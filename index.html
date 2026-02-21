@@ -2,39 +2,68 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>FthLabz Şifreleyici</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
-        body { background: #09090b; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .box { background: #1e1e24; padding: 30px; border-radius: 15px; width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; }
-        input, textarea, button { width: 100%; margin-top: 10px; padding: 12px; border-radius: 8px; border: none; box-sizing: border-box; font-size: 14px; }
-        input, textarea { background: #000; color: #00ff00; outline: none; }
-        button { background: #3b82f6; color: white; font-weight: bold; cursor: pointer; margin-top: 20px; transition: 0.2s; }
+        body { background: #09090b; color: white; font-family: sans-serif; padding: 20px; margin: 0; }
+        .box { background: #1e1e24; padding: 20px; border-radius: 15px; width: 100%; box-sizing: border-box; border: 1px solid #333; margin-top: 10px; }
+        label { font-size: 15px; color: #a1a1aa; font-weight: bold; display: block; margin-bottom: 8px; margin-top: 20px;}
+        input, textarea { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #444; background: #000; color: #00ff00; font-size: 16px; box-sizing: border-box; outline: none; }
+        button { width: 100%; padding: 18px; border-radius: 10px; border: none; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 25px; transition: 0.2s; }
+        .btn-main { background: #3b82f6; color: white; }
+        .btn-copy { background: #25D366; color: white; display: none; }
         button:active { transform: scale(0.95); }
+        h2 { margin-top: 0; color: #3b82f6; text-align: center; font-size: 26px; }
     </style>
 </head>
 <body>
     <div class="box">
-        <h2 style="margin-top:0; color:#3b82f6; text-align:center;">FthLabz Token Şifreleyici</h2>
-        <label>GitHub Token (ghp_...):</label>
-        <input type="text" id="token" placeholder="Gerçek token'ı yapıştır">
+        <h2>Token Şifreleyici</h2>
         
-        <label style="display:block; margin-top:15px;">Gizli PIN (Örn: 1453):</label>
-        <input type="text" id="pin" placeholder="Akılda kalıcı bir şifre">
+        <label>1. GitHub Token (ghp_ dahil tamamı):</label>
+        <input type="text" id="token" placeholder="ghp_123456789...">
         
-        <button onclick="sifrele()">KİLİTLE VE ŞİFREYİ ÜRET</button>
+        <label>2. Gizli PIN (Örn: 1453):</label>
+        <input type="number" id="pin" placeholder="1453">
         
-        <label style="display:block; margin-top:20px; color:#a1a1aa;">Koda Yapıştırılacak Kripto Metin:</label>
-        <textarea id="sonuc" rows="4" placeholder="U2FsdGVkX1... buraya çıkacak" readonly></textarea>
+        <button class="btn-main" onclick="sifrele()">KİLİTLE VE ŞİFRE ÜRET</button>
+        
+        <label id="sonucLabel" style="display:none; color: #25D366;">Kriptolu Metin Hazır:</label>
+        <textarea id="sonuc" rows="5" style="display:none;" readonly></textarea>
+        
+        <button id="copyBtn" class="btn-copy" onclick="kopyala()">Panoya Kopyala 📋</button>
     </div>
 
     <script>
         function sifrele() {
             const token = document.getElementById('token').value;
             const pin = document.getElementById('pin').value;
-            if(!token || !pin) { alert("Doldur dostum!"); return; }
+            
+            if(!token || !pin) { alert("Lütfen Token ve PIN alanlarını doldurun."); return; }
+            
             const sifreli = CryptoJS.AES.encrypt(token, pin).toString();
-            document.getElementById('sonuc').value = sifreli;
+            
+            const sonucArea = document.getElementById('sonuc');
+            sonucArea.value = sifreli;
+            
+            // Gizli alanları göster
+            sonucArea.style.display = "block";
+            document.getElementById('sonucLabel').style.display = "block";
+            document.getElementById('copyBtn').style.display = "block";
+            document.getElementById('copyBtn').innerText = "Panoya Kopyala 📋";
+            document.getElementById('copyBtn').style.background = "#25D366";
+        }
+
+        function kopyala() {
+            const sonucArea = document.getElementById('sonuc');
+            sonucArea.select();
+            sonucArea.setSelectionRange(0, 99999); // Mobilde tam seçmesi için
+            navigator.clipboard.writeText(sonucArea.value).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.innerText = "Kopyalandı! ✅";
+                btn.style.background = "#128C7E";
+            });
         }
     </script>
 </body>
