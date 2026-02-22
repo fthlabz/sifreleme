@@ -1,0 +1,26 @@
+</head> tan hemen önce birer satır boşluk bırakarak
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+kütüphaneyi yükle 
+
+aldığın token ı sifreleme programında şifrele
+
+// --- HAYALET KİLİT SİSTEMİ ---
+const sifreliKasa = "BURAYA_SIFRELI_METNI_YAPISTIR"; 
+const gizliPin = "1453"; 
+
+const bytes = CryptoJS.AES.decrypt(sifreliKasa, gizliPin);
+const githubToken veya TOKEN = bytes.toString(CryptoJS.enc.Utf8);
+
+token aşağıdaki kısmı yukarıdakş ile değiştir 
+aldığın cripto.kj token ı yapıştır
+
+
+eski token 
+
+const token1 = "ghp_";
+    // Aşağıdaki token kısmını kendi çalışan tokenin ile değiştirmeyi unutma!
+    const token2 = "jdjxjdjddkdkdpspaushsısjdndıdlf"; 
+    const githubToken = token1 + token2;
+
